@@ -1,6 +1,7 @@
 package com.booleanuk.api.repository;
 
 import com.booleanuk.api.db.DatabaseConnection;
+import com.booleanuk.api.model.Employee;
 import com.booleanuk.api.model.Salary;
 import com.booleanuk.api.model.Salary;
 
@@ -53,7 +54,7 @@ public class SalaryRepository {
     }
 
     public Salary add(Salary salary) throws SQLException {
-        String query = "INSERT INTO salaries (grade minSalary, maxSalary) VALUES (?, ?, ?)";
+        String query = "INSERT INTO salaries (grade, minSalary, maxSalary) VALUES (?, ?, ?)";
         PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         statement.setString(1, salary.getGrade());
         statement.setInt(2, salary.getMinSalary());
@@ -80,7 +81,8 @@ public class SalaryRepository {
     public Salary delete(long id) throws SQLException {
         String query = "DELETE FROM salaries WHERE id = ?";
         PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement(query);
-        Salary toDelete = this.getOne(id);
+        Salary toDelete = null;
+        toDelete = this.getOne(id);
 
         statement.setLong(1, id);
         int rowsAffected = statement.executeUpdate();
@@ -94,12 +96,13 @@ public class SalaryRepository {
         String SQL = "UPDATE salaries " +
                 "SET grade = ? ," +
                 "minSalary = ? ," +
-                "maxSalary = ?";
+                "maxSalary = ? " +
+                "WHERE id = ? ";
         PreparedStatement statement = DatabaseConnection.getConnection().prepareStatement(SQL);
         statement.setString(1, newData.getGrade());
         statement.setInt(2, newData.getMinSalary());
         statement.setInt(3, newData.getMaxSalary());
-        statement.setLong(5, id);
+        statement.setLong(4, id);
         int rowsAffected = statement.executeUpdate();
         Salary updatedSalary = null;
         if (rowsAffected > 0) {

@@ -14,6 +14,12 @@ public class Salary {
         this.maxSalary = maxSalary;
     }
 
+    public Salary(String grade, int minSalary, int maxSalary) {
+        this.grade = grade;
+        this.minSalary = minSalary;
+        this.maxSalary = maxSalary;
+    }
+
     public Salary() {
 
     }
