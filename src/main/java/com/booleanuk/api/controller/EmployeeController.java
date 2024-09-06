@@ -46,4 +46,12 @@ public class EmployeeController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
     }
 
+    @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Employee update(@PathVariable long id, @RequestBody Employee toUpdate) throws SQLException {
+        Employee actualToUpdate = this.employees.getOne(id);
+        if (actualToUpdate != null) return this.employees.update(id, toUpdate);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
+    }
+
 }

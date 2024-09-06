@@ -129,4 +129,25 @@ public class EmployeeRepository {
         return toDelete;
     }
 
+    public Employee update(long id, Employee newData) throws SQLException {
+        String SQL = "UPDATE employees " +
+                "SET name = ? ," +
+                "jobName = ? ," +
+                "salaryGrade = ? ," +
+                "department = ? " +
+                "WHERE id = ? ";
+        PreparedStatement statement = this.connection.prepareStatement(SQL);
+        statement.setString(1, newData.getName());
+        statement.setString(2, newData.getJobName());
+        statement.setString(3, newData.getSalaryGrade());
+        statement.setString(4, newData.getDepartment());
+        statement.setLong(5, id);
+        int rowsAffected = statement.executeUpdate();
+        Employee updatedEmployee = null;
+        if (rowsAffected > 0) {
+            updatedEmployee = this.getOne(id);
+        }
+        return updatedEmployee;
+    }
+
 }
