@@ -39,4 +39,11 @@ public class EmployeeController {
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Employee with given ID not found.");
     }
 
+    @DeleteMapping("{id}")
+    public Employee delete(@PathVariable long id) throws SQLException {
+        Employee toDelete = this.employees.getOne(id);
+        if (toDelete != null) return this.employees.delete(id);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found.");
+    }
+
 }

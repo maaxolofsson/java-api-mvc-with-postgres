@@ -115,4 +115,18 @@ public class EmployeeRepository {
         return employee;
     }
 
+    public Employee delete(long id) throws SQLException {
+        String query = "DELETE FROM employees WHERE id = ?";
+        PreparedStatement statement = this.connection.prepareStatement(query);
+        Employee toDelete = null;
+        toDelete = this.getOne(id);
+
+        statement.setLong(1, id);
+        int rowsAffected = statement.executeUpdate();
+        if (rowsAffected == 0) {
+            toDelete = null;
+        }
+        return toDelete;
+    }
+
 }
