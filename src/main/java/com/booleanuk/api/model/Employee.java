@@ -16,6 +16,13 @@ public class Employee {
         this.department = department;
     }
 
+    public Employee(String name, String jobName, String salaryGrade, String department) {
+        this.name = name;
+        this.jobName = jobName;
+        this.salaryGrade = salaryGrade;
+        this.department = department;
+    }
+
     public Employee() {
 
     }
@@ -40,8 +47,8 @@ public class Employee {
         return department;
     }
 
-    public void setId(long newId) {
-        this.id = newId;
+    public void setId(long id) {
+        this.id = id;
     }
 
 }

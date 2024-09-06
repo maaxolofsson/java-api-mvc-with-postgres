@@ -88,4 +88,31 @@ public class EmployeeRepository {
         }
         return e;
     }
+
+    public Employee add(Employee employee) throws SQLException {
+        String query = "INSERT INTO employees (name, jobName, salaryGrade, department) VALUES (?, ?, ?, ?)";
+        PreparedStatement statement = this.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+        statement.setString(1, employee.getName());
+        statement.setString(2, employee.getJobName());
+        statement.setString(3, employee.getSalaryGrade());
+        statement.setString(4, employee.getDepartment());
+        final int rowsAffected = statement.executeUpdate();
+        long newId = 0;
+        if (rowsAffected > 0) {
+            ResultSet res;
+            try {
+                res = statement.getGeneratedKeys();
+                if (res.next()) {
+                    newId = res.getLong(1);
+                }
+            } catch (Exception e) {
+                System.out.println("Error: " + e);
+            }
+            employee.setId(newId);
+        } else {
+            employee = null;
+        }
+        return employee;
+    }
+
 }
